@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
         port: "1337",
         pathname: "/uploads/**/*",
       },
+      {
+        protocol: "https",
+        hostname: "uplifting-friends-1e5303dc17.media.strapiapp.com",
+      }
     ],
   },
 };
