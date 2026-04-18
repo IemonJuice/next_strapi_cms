@@ -1,0 +1,53 @@
+@startuml C4_Level3_Components_Strapi
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram — Strapi CMS Backend
+
+Container_Ext(nextjs_app, "Next.js Frontend", "TypeScript / Next.js", "Споживає контент через REST API")
+Container_Ext(admin_panel, "Strapi Admin Panel", "React SPA", "Інтерфейс редактора")
+ContainerDb_Ext(sqlite_db, "SQLite / PostgreSQL", "Database", "Дані контенту")
+
+Container_Boundary(strapi, "Strapi CMS Backend") {
+
+    Component(router, "Koa.js Router", "Koa.js HTTP Framework", "Обробляє вхідні HTTP-запити. Маршрутизує до відповідних контролерів.")
+
+    Component(auth_middleware, "Auth & Permissions Middleware", "Strapi Core Plugin", "Перевіряє JWT токени, API токени. Контролює доступ до ресурсів на основі ролей (RBAC).")
+
+    Component(content_api, "Content API (REST)", "Strapi REST API Layer", "Публічний API (/api/*). Обслуговує запити від Next.js. Серіалізує дані колекцій у JSON.")
+
+    Component(admin_api, "Admin API", "Strapi Admin API", "Внутрішній API для Admin Panel (/admin/api/*). Управління контентом, налаштуваннями, користувачами.")
+
+    Component(content_manager, "Content Manager", "Strapi Core Plugin", "Логіка роботи з Content Types: CRUD операції, Draft/Publish, валідація, відносини між типами.")
+
+    Component(content_type_builder, "Content Type Builder", "Strapi Core Plugin", "Дозволяє динамічно визначати схеми контент-типів. Генерує міграції БД.")
+
+    Component(upload_plugin, "Upload Plugin / Media Library", "Strapi Plugin", "Управляє завантаженням медіафайлів. Підтримує локальне сховище або хмарні провайдери (Cloudinary).")
+
+    Component(users_permissions, "Users & Permissions Plugin", "Strapi Plugin", "Реєстрація/логін кінцевих користувачів. JWT-авторизація для публічного API.")
+
+    Component(lifecycle_hooks, "Lifecycle Hooks & Custom Logic", "TypeScript / Node.js", "Розширення поведінки: beforeCreate, afterUpdate тощо. Місце для кастомної бізнес-логіки.")
+
+    Component(db_connector, "Database Connector", "Knex.js / Bookshelf ORM", "Абстракція над БД. Виконує SQL-запити, керує транзакціями та підключенням до БД.")
+}
+
+Rel(nextjs_app, router, "HTTP REST запити", "GET /api/articles, Bearer Token")
+Rel(admin_panel, router, "HTTP Admin запити", "HTTPS / Session Cookie")
+
+Rel(router, auth_middleware, "Перевірка автентифікації", "")
+Rel(auth_middleware, content_api, "Авторизований публічний запит", "")
+Rel(auth_middleware, admin_api, "Авторизований адмін запит", "")
+
+Rel(content_api, content_manager, "Делегує CRUD операції", "")
+Rel(admin_api, content_manager, "Делегує CRUD операції", "")
+Rel(admin_api, content_type_builder, "Управління схемою", "")
+Rel(admin_api, upload_plugin, "Завантаження медіа", "")
+Rel(admin_api, users_permissions, "Управління користувачами та ролями", "")
+
+Rel(content_manager, lifecycle_hooks, "Виклик хуків", "")
+Rel(content_manager, db_connector, "Запити до БД", "")
+Rel(upload_plugin, db_connector, "Зберігання метаданих", "")
+Rel(db_connector, sqlite_db, "SQL запити", "Knex.js")
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml C4_Level2_Container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram — Headless CMS (Strapi + Next.js + Vercel)
+
+Person(visitor, "Відвідувач сайту", "Переглядає публічний контент")
+Person(editor, "Редактор контенту", "Керує контентом")
+
+System_Boundary(cms_system, "Headless CMS System") {
+
+    Container(nextjs_app, "Next.js Frontend", "TypeScript / React / Next.js 14", "Публічний вебсайт. Рендерить сторінки з контентом через SSR/SSG. Деплоїться на Vercel.")
+    
+    Container(strapi_cms, "Strapi CMS Backend", "Node.js / TypeScript / Strapi v5", "Headless CMS. Надає REST API для контенту, Admin Panel для редакторів, керує правами доступу.")
+    
+    Container(admin_panel, "Strapi Admin Panel", "React SPA (вбудований у Strapi)", "Веб-інтерфейс для редакторів. Доступний за /admin. Дозволяє керувати колекціями, медіа, правами.")
+    
+    ContainerDb(sqlite_db, "SQLite Database", "SQLite (локально) / PostgreSQL (prod)", "Зберігає весь контент: колекції, медіафайли (метадані), налаштування, користувачів.")
+    
+    Container(media_storage, "Media Library", "Локальна файлова система / Cloudinary", "Зберігання зображень та медіафайлів, завантажених через Strapi.")
+}
+
+System_Ext(vercel_cdn, "Vercel Edge Network / CDN", "Глобальна CDN та серверлес-платформа для Next.js")
+System_Ext(github, "GitHub Repository", "Зберігання коду, тригер CI/CD")
+
+Rel(visitor, nextjs_app, "Відкриває вебсторінки", "HTTPS")
+Rel(editor, admin_panel, "Управляє контентом", "HTTPS (браузер)")
+
+Rel(nextjs_app, strapi_cms, "Запитує контент", "REST API / HTTP (NEXT_PUBLIC_STRAPI_API_URL)")
+Rel(admin_panel, strapi_cms, "Інтегрований у Strapi", "Internal")
+
+Rel(strapi_cms, sqlite_db, "Читає / Записує контент", "SQL / Knex ORM")
+Rel(strapi_cms, media_storage, "Зберігає медіафайли", "File System / Plugin")
+
+Rel(nextjs_app, vercel_cdn, "Деплоїться та обслуговується", "Vercel Platform")
+Rel(github, vercel_cdn, "Автодеплой при push", "Webhook / CI")
+
+@enduml

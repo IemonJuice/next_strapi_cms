@@ -1,0 +1,45 @@
+@startuml C4_Level3_Components_NextJS
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram — Next.js Frontend
+
+Container_Ext(strapi_cms, "Strapi CMS Backend", "Node.js / Strapi", "Надає REST API з контентом")
+Container_Ext(vercel_cdn, "Vercel Edge Network", "CDN / Serverless", "Хостинг та глобальна доставка")
+
+Container_Boundary(nextjs, "Next.js Frontend (TypeScript)") {
+
+    Component(app_router, "App Router", "Next.js 14 App Router", "Файлова система маршрутизації. Визначає layout, page, loading, error компоненти. Підтримує вкладені маршрути.")
+
+    Component(server_components, "React Server Components", "RSC / Next.js", "Компоненти, що рендеряться на сервері. Безпосередньо звертаються до Strapi API без клієнтського JS. Мінімізують bundle.")
+
+    Component(client_components, "Client Components", "React / use client", "Інтерактивні UI-елементи. Навігація, фільтри, форми. Виконуються у браузері клієнта.")
+
+    Component(strapi_client, "Strapi API Client", "TypeScript / fetch()", "Утилітарні функції для запитів до Strapi REST API. Управляє Bearer токеном, серіалізацією параметрів запиту.")
+
+    Component(page_components, "Page Components", "TypeScript / React", "Сторінки: головна, список статей, сторінка статті тощо. Використовують RSC для fetching даних.")
+
+    Component(ui_components, "UI Components", "TypeScript / React / CSS Modules", "Перевикористовувані UI-елементи: Header, Footer, Card, ArticleList тощо.")
+
+    Component(static_assets, "Static Assets", "CSS / Images / Fonts", "Статичні ресурси: глобальні стилі, зображення, шрифти.")
+
+    Component(env_config, "Environment Config", ".env.local / Next.js Config", "Конфігурація: NEXT_PUBLIC_STRAPI_API_URL, API токен. next.config.js з налаштуваннями Image Optimization.")
+}
+
+Rel(app_router, server_components, "Рендерить сторінки", "")
+Rel(app_router, client_components, "Включає інтерактивні компоненти", "")
+
+Rel(server_components, strapi_client, "Запитує дані (server-side)", "fetch() / async")
+Rel(strapi_client, strapi_cms, "REST API запити", "HTTPS / Bearer Token")
+
+Rel(server_components, page_components, "Використовує", "")
+Rel(server_components, ui_components, "Використовує", "")
+Rel(client_components, ui_components, "Використовує", "")
+
+Rel(strapi_client, env_config, "Читає URL та токен", "")
+Rel(page_components, static_assets, "Підключає стилі", "")
+
+Rel(app_router, vercel_cdn, "Обслуговується через", "SSR / SSG / Edge")
+
+@enduml

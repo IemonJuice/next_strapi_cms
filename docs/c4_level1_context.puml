@@ -1,0 +1,28 @@
+@startuml C4_Level1_SystemContext
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title System Context — Headless CMS (Strapi + Next.js + Vercel)
+
+Person(visitor, "Відвідувач сайту", "Кінцевий користувач, який переглядає контент через браузер")
+Person(editor, "Редактор контенту", "Автор/адміністратор, який керує контентом через Strapi Admin Panel")
+Person(developer, "Розробник", "Налаштовує та розгортає систему")
+
+System(cms_system, "Headless CMS System", "Система керування контентом на базі Strapi + Next.js. Надає публічний вебсайт та адмін-панель для управління контентом.")
+
+System_Ext(vercel, "Vercel", "Хмарна платформа для розгортання Next.js фронтенду")
+System_Ext(github, "GitHub", "Репозиторій вихідного коду та CI/CD тригер")
+System_Ext(browser, "Веббраузер", "Клієнтський браузер для перегляду сайту")
+
+Rel(visitor, cms_system, "Переглядає публічний контент", "HTTPS")
+Rel(editor, cms_system, "Управляє контентом через Admin Panel", "HTTPS / REST API")
+Rel(developer, cms_system, "Розробляє та налаштовує", "CLI / Git")
+
+Rel(cms_system, vercel, "Деплоїть Next.js додаток", "Git Push / Vercel CLI")
+Rel(developer, github, "Push коду", "Git")
+Rel(github, vercel, "Тригер автодеплою", "Webhook")
+Rel(visitor, browser, "Використовує", "")
+Rel(browser, cms_system, "HTTP запити", "HTTPS")
+
+@enduml
