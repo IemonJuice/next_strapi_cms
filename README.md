@@ -2,11 +2,14 @@
 
 > **Strapi + Next.js + Vercel** — повнофункціональна система керування контентом із headless-архітектурою.
 
-🔗 **Live Demo:** [next-strapi-cms.vercel.app](https://next-strapi-cms.vercel.app)
+🔗 **Live Demo:** admin [https://uplifting-friends-1e5303dc17.strapiapp.com/admin](https://uplifting-friends-1e5303dc17.strapiapp.com/admin)
+🔗 **Live Demo:** front [https://next-strapi-5kuho1ag2-xixsenturys-projects.vercel.app/](https://next-strapi-5kuho1ag2-xixsenturys-projects.vercel.app/)
+🔗 **GITHUB:** [https://github.com/IemonJuice/practicum-2-3](https://github.com/IemonJuice/practicum-2-3)
+
 
 ---
 
-## 📋 Опис проекту
+## Опис проекту
 
 Проект реалізує концепцію **Headless CMS як керованого PaaS-рішення**. Система складається з двох незалежних частин:
 
@@ -17,7 +20,7 @@
 
 ---
 
-## 🏗️ Архітектура системи
+##  Архітектура системи
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -64,7 +67,7 @@
 
 ---
 
-## 📁 Структура проекту
+##  Структура проекту
 
 ```
 next_strapi_cms/
@@ -96,7 +99,7 @@ next_strapi_cms/
 
 ---
 
-## 🚀 Інструкція з запуску
+##  Інструкція з запуску
 
 ### Вимоги
 
@@ -148,8 +151,8 @@ DATABASE_FILENAME=.tmp/data.db
 
 ```bash
 cd ../frontend
-npm install         # або yarn
-cp .env.local.example .env.local   # або створіть файл вручну
+npm install
+cp .env.local.example .env.local
 ```
 
 **Змінні середовища frontend (`.env.local`):**
@@ -159,7 +162,7 @@ NEXT_PUBLIC_STRAPI_API_TOKEN=your-api-token-from-step-3
 ```
 
 ```bash
-npm run dev         # або yarn dev
+npm run dev
 ```
 
 Next.js буде доступний на: `http://localhost:3000`
@@ -174,7 +177,7 @@ npm run dev
 
 ---
 
-## 🌐 Деплой на Vercel
+##  Деплой на Vercel
 
 Фронтенд автоматично деплоїться на Vercel при push у гілку `main`.
 
@@ -187,7 +190,7 @@ npm run dev
 
 ---
 
-## 📊 C4 Model Діаграми
+## C4 Model Діаграми
 
 Діаграми розташовані у директорії `/docs` у форматі PlantUML (`.puml`).
 
@@ -221,6 +224,6 @@ npm run dev
 
 ---
 
-## 📝 Ліцензія
+## Ліцензія
 
 MIT License
