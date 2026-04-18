@@ -3,7 +3,7 @@
 > **Strapi + Next.js + Vercel** — повнофункціональна система керування контентом із headless-архітектурою.
 
 🔗 **Live Demo:** admin [https://uplifting-friends-1e5303dc17.strapiapp.com/admin](https://uplifting-friends-1e5303dc17.strapiapp.com/admin)
-🔗 **Live Demo:** front [https://next-strapi-5kuho1ag2-xixsenturys-projects.vercel.app/](https://next-strapi-5kuho1ag2-xixsenturys-projects.vercel.app/)
+🔗 **Live Demo:** front [https://next-strapi-kdcrp71sp-xixsenturys-projects.vercel.app/](https://next-strapi-kdcrp71sp-xixsenturys-projects.vercel.app/)
 🔗 **GITHUB:** [https://github.com/IemonJuice/practicum-2-3](https://github.com/IemonJuice/practicum-2-3)
 
 
